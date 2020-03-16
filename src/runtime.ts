@@ -14,6 +14,8 @@
 import { Observable, of } from 'rxjs';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
+import FormData from 'form-data';
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 export const BASE_PATH = 'https://sandbox-api.mfkessai.co.jp/v2'.replace(/\/+$/, '');
 
@@ -47,11 +49,13 @@ export class Configuration {
 
     get apiKey(): ((name: string) => string) | undefined {
         const apiKey = this.configuration.apiKey;
+        // @ts-ignore
         return apiKey && (typeof apiKey === 'function' ? apiKey : () => apiKey);
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
         const accessToken = this.configuration.accessToken;
+        // @ts-ignore
         return accessToken && (typeof accessToken === 'function' ? accessToken : () => accessToken);
     }
 }
@@ -62,7 +66,7 @@ export class Configuration {
 export class BaseAPI {
     private middleware: Middleware[] = [];
 
-    constructor(protected configuration = new Configuration()) {
+    constructor(protected configuration = new Configuration({ apiKey: process.env.MF_KESSAI_API_KEY })) {
         this.middleware = configuration.middleware;
     }
 
@@ -103,8 +107,10 @@ export class BaseAPI {
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
             responseType: requestOpts.responseType || 'json',
+            withCredentials: false,
+            createXHR: () => new XMLHttpRequest(),
         };
-    }
+    };
 
     private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> =>
         of(params).pipe(

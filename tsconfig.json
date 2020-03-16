@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "commonjs",
     "outDir": "dist",
     "removeComments": true,
