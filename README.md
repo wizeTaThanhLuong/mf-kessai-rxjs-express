@@ -9,12 +9,25 @@
 
 The original source are in [master_origin](https://github.com/wizeTaThanhLuong/mf-kessai-rxjs-express/tree/master_origin) branch.
 
+## Config environment and write testing router
+Edit:
+- env/
+- package.json
+- tsconfig.json (I try add libs `dom`, `dom.iterable`, `esnext` into fix built-in issue with DOM, but not work)
+- tsconfig.prod.json
+- src/routes/index.ts (add apiKey to configuration)
+- src/runtime.ts
+
+Adding:
+- src/routes/Billings.ts
+
 ## Fix Errors
  - The `runtime.ts` file has some type definition errors, so it need to leave some `// @ts-ignore` comments
  - The source uses some built-in modules of DOM (FormData, XMLHTTPRequest) which's only supported by web browser.
  Therefore, it's need to be installed with [@types/form-data](https://www.npmjs.com/package/@types/form-data)
   and [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) package. But, the `xmlhttprequest` does not have
   supported typescript version, and we must use `require` instead `import` for using this module. 
+  
   
 ## Testing API
 It's need to config MF_KESSAI_API_KEY in `env` files, before testing.
