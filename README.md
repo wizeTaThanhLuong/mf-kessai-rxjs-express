@@ -1,3 +1,9 @@
+# Start project with docker
+Docker container run by user `node`, make sure the permission for `node` supplied.
+```$xslt
+docker-compose up -d
+```
+
 # Project Generation
 
 ## Nodejs and Express

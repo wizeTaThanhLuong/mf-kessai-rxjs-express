@@ -18,7 +18,7 @@ router.get('/', async (req: Request, res: Response) => {
     billingApiObservable.subscribe({
         next: value => res.status(OK).json({ res: value }),
         error: err => res.status(BAD_REQUEST).json({ message: err.toString() }),
-        complete: () => res.status(OK).json({}),
+        complete: () => null,
     });
 });
 
@@ -33,7 +33,7 @@ router.get('/:billingId', async (req: Request, res: Response) => {
     billingApiObservable.subscribe({
         next: value => res.status(OK).json({ billingId, res: value }),
         error: err => res.status(BAD_REQUEST).json({ message: err.toString() }),
-        complete: () => res.status(OK).json({ billingId }),
+        complete: () => null,
     });
 });
 
