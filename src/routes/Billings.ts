@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, OK } from 'http-status-codes';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import { BillingApi } from '../apis';
+import { BillingApi } from '../generated';
 
 // Init shared
 const router = Router();
