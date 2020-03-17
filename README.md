@@ -27,7 +27,7 @@ Adding:
  Therefore, it's need to be installed with [@types/form-data](https://www.npmjs.com/package/@types/form-data)
   and [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) package. But, the `xmlhttprequest` does not have
   supported typescript version, and we must use `require` instead `import` for using this module. 
-  
+  - [See more...](https://github.com/wizeTaThanhLuong/mf-kessai-rxjs-express/commit/6226eb82cc0bc1249146946c2628e88dcf59d2d2)
   
 ## Testing API
 It's need to config MF_KESSAI_API_KEY in `env` files, before testing.
