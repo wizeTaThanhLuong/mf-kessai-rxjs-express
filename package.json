@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@types/form-data": "^2.5.0",
+    "@types/nodemailer": "^6.4.0",
     "command-line-args": "^5.1.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -25,6 +26,8 @@
     "http-status-codes": "^1.4.0",
     "module-alias": "^2.2.2",
     "morgan": "^1.9.1",
+    "nodemailer": "^6.4.5",
+    "nodemailer-sendgrid-transport": "^0.2.0",
     "rxjs": "^6.5.4",
     "winston": "^3.2.1",
     "xmlhttprequest": "^1.8.0"
