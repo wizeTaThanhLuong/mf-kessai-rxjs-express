@@ -8,6 +8,7 @@ import { BAD_REQUEST } from 'http-status-codes';
 import 'express-async-errors';
 
 import BaseRouter from './routes';
+import ExtRouter from './routes/ext';
 import logger from '@shared/Logger';
 
 
@@ -36,6 +37,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // Add APIs
 app.use('/api', BaseRouter);
+app.use('/extapi', ExtRouter);
 
 // Print API errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
@@ -55,9 +57,6 @@ const viewsDir = path.join(__dirname, 'views');
 app.set('views', viewsDir);
 const staticDir = path.join(__dirname, 'public');
 app.use(express.static(staticDir));
-app.get('*', (req: Request, res: Response) => {
-    res.sendFile('index.html', {root: viewsDir});
-});
 
 // Export express instance
 export default app;
