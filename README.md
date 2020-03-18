@@ -22,15 +22,31 @@ The source uses some built-in modules of DOM (FormData, XMLHTTPRequest) which's 
   and [xmlhttprequest](https://www.npmjs.com/package/xmlhttprequest) package. But, the `xmlhttprequest` does not have
   supported typescript version, and we must use `require` instead `import` for using this module. 
   - [See more...](https://github.com/wizeTaThanhLuong/mf-kessai-rxjs-express/commit/6226eb82cc0bc1249146946c2628e88dcf59d2d2)
+
+## Sendgrid Mailer
+> We use sendgrid API via [nodemailer](https://github.com/nodemailer/nodemailer),
+ and [nodemailer-sendgrid-transport](https://github.com/sendgrid/nodemailer-sendgrid-transport) package.
   
 ## Testing API
-It's need to config MF_KESSAI_API_KEY in `env` files, before testing.
+It's need to config `MF_KESSAI_API_KEY` and `SENDGRID_API_KEY` in `env` files, before testing.
 
-> [domain]/api/billings
+> GET: [domain]/extapi/mf/billings
 
 Get billings list
 
 
-> [domain]/api/billings/:id
+> GET: [domain]/extapi/mf/billings/:id
 
 Get billing detail
+
+> POST: [domain]/extapi/sg/sendMail
+
+Send email test with sendgrid
+```$xslt
+curl --location --request POST '${domain}/extapi/sg/sendMail' \
+--header 'Content-Type: application/json' \
+--header 'apikey: apikey' \
+--data-raw '{
+	"to": "example@email.com"
+}'
+```
