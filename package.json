@@ -9,8 +9,7 @@
     "test": "nodemon --config nodemon.test.json"
   },
   "_moduleAliases": {
-    "@daos": "dist/daos",
-    "@entities": "dist/entities",
+    "@generated": "dist/generated",
     "@shared": "dist/shared",
     "@server": "dist/Server"
   },

@@ -14,11 +14,8 @@
     "target": "es6",
     "moduleResolution": "node",
     "paths": {
-      "@daos/*": [
-        "src/daos/*"
-      ],
-      "@entities/*": [
-        "src/entities/*"
+      "@generated/*": [
+        "src/generated/*"
       ],
       "@shared/*": [
         "src/shared/*"

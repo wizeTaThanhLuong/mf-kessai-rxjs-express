@@ -7,6 +7,9 @@ import express, { Request, Response, NextFunction } from 'express';
 import { BAD_REQUEST } from 'http-status-codes';
 import 'express-async-errors';
 
+import FormData from 'form-data';
+(global as any)['FormData'] = FormData;
+
 import BaseRouter from './routes';
 import ExtRouter from './routes/ext';
 import logger from '@shared/Logger';

@@ -14,9 +14,6 @@
 import { Observable, of } from 'rxjs';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
-// @ts-ignore
-import FormData from 'form-data';
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 export const BASE_PATH = 'https://sandbox-api.mfkessai.co.jp/v2'.replace(/\/+$/, '');
 
@@ -67,7 +64,7 @@ export class Configuration {
 export class BaseAPI {
     private middleware: Middleware[] = [];
 
-    constructor(protected configuration = new Configuration({ apiKey: process.env.MF_KESSAI_API_KEY })) {
+    constructor(protected configuration = new Configuration()) {
         this.middleware = configuration.middleware;
     }
 
@@ -108,10 +105,8 @@ export class BaseAPI {
             headers: requestOpts.headers,
             body: requestOpts.body instanceof FormData ? requestOpts.body : JSON.stringify(requestOpts.body),
             responseType: requestOpts.responseType || 'json',
-            withCredentials: false,
-            createXHR: () => new XMLHttpRequest(),
         };
-    };
+    }
 
     private rxjsRequest = (params: RequestArgs): Observable<AjaxResponse> =>
         of(params).pipe(
