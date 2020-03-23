@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>API Test</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <style type="text/css">
+        .lds-dual-ring {
+            display: inline-block;
+        }
+        .lds-dual-ring:after {
+            content: " ";
+            display: block;
+            border-radius: 50%;
+            border: 6px solid red;
+            border-color: red transparent red transparent;
+            animation: lds-dual-ring 1.2s linear infinite;
+        }
+        @keyframes lds-dual-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div style="display: flex;">
+        <div style="display: block; flex: 1;">
+            <h1>TEST</h1>
+            <select name="type" value="" style="width: 200px; height: 50px;" id="type">
+                <option value="" label="Please select type document"></option>
+                <option value="passport" label="passport"></option>
+                <option value="drivers_license" label="drivers_license"></option>
+                <option value="individual_number_card" label="individual_number_card"></option>
+                <option value="basic_resident_registration_card" label="basic_resident_registration_card"></option>
+                <option value="residence_card" label="residence_card"></option>
+                <option value="driving_history_certificate" label="driving_history_certificate"></option>
+                <option value="special_permanent_resident_certificate" label="special_permanent_resident_certificate"></option>
+                <option value="health_insurance_card" label="health_insurance_card"></option>
+            </select>
+            <div style="display: block">
+                <label for="front">Front Image</label>
+                <input type="file" id="front">
+            </div>
+            <div style="display: block">
+                <label for="back">Back Image</label>
+                <input type="file" id="back">
+            </div>
+            <button id="submit">Submit</button>
+        </div>
+        <div style="display: block; flex: 1;">
+            <h1>RESULT</h1>
+            <h3>(See Console for more details)</h3>
+            <div id="step-1">
+                <label for="step-1">Get plans</label>
+                <div class="lds-dual-ring" style="display: none;"></div>
+                <i class="fa fa-check-circle success" style="color: blue; display: none;"></i>
+                <i class="fa fa-exclamation-triangle error" style="color: red; display: none;"></i>
+            </div>
+            <div id="step-2">
+                <label for="step-2">Choose plan</label>
+                <div class="lds-dual-ring" style="display: none;"></div>
+                <i class="fa fa-check-circle success" style="color: blue; display: none;"></i>
+                <i class="fa fa-exclamation-triangle error" style="color: red; display: none;"></i>
+            </div>
+            <div id="step-3">
+                <label for="step-3">Confirm Documents</label>
+                <div class="lds-dual-ring" style="display: none;"></div>
+                <i class="fa fa-check-circle success" style="color: blue; display: none;"></i>
+                <i class="fa fa-exclamation-triangle error" style="color: red; display: none;"></i>
+            </div>
+            <div id="step-4">
+                <label for="step-4">Compare Data</label>
+                <div class="lds-dual-ring" style="display: none;"></div>
+                <i class="fa fa-check-circle success" style="color: blue; display: none;"></i>
+                <i class="fa fa-exclamation-triangle error" style="color: red; display: none;"></i>
+            </div>
+            <div id="step-5">
+                <button id="status">Verification Status</button>
+                <div class="lds-dual-ring" style="display: none;"></div>
+                <i class="fa fa-check-circle success" style="color: blue; display: none;"></i>
+                <i class="fa fa-exclamation-triangle error" style="color: red; display: none;"></i>
+            </div>
+            <div id="step-6">
+                <button id="delete">Delete Verification</button>
+                <div class="lds-dual-ring" style="display: none;"></div>
+                <i class="fa fa-check-circle success" style="color: blue; display: none;"></i>
+                <i class="fa fa-exclamation-triangle error" style="color: red; display: none;"></i>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const TrustDockModule = function($, window) {
+      const module = {
+        id: "",
+        plan_id: "95a92872-2eba-4498-a7b6-91ea70adb955",
+        front: "",
+        back: "",
+      };
+
+      module.handleRequest = (step, url, method, data, next) => {
+        const loading = step.find(".lds-dual-ring");
+        const success = step.find(".success");
+        const error = step.find(".error");
+
+        loading.show();
+
+        $.ajax({
+          url,
+          method,
+          data,
+          success: function(res) {
+            console.log(step.attr("id"), res);
+            error.hide();
+            success.show();
+            if (next) next(res);
+          },
+          error: function (err) {
+            console.log(step.attr("id"), err);
+            success.hide();
+            error.show();
+          },
+          complete: function () {
+            loading.hide();
+          }
+        });
+      };
+
+      module.getPlans = () => {
+        module.handleRequest(
+          $("#step-1"),
+          "/extapi/td/get-plans",
+          "POST",
+          { matching: true },
+          (res) => {
+            module.id = res.id;
+            module.choosePlan();
+          }
+        );
+      };
+
+      module.choosePlan = () => {
+        const data = {
+          id: module.id,
+          ids: [module.plan_id],
+        };
+        module.handleRequest(
+          $("#step-2"),
+          "/extapi/td/choose-plan",
+          "PUT",
+          data,
+          module.confirmDocuments
+        );
+      };
+
+      module.confirmDocuments = () => {
+        const data = {
+          id: module.id,
+          plan_id: module.plan_id,
+          documents: {
+            id_document: {
+              type: $("#type").val(),
+              format: "image",
+              data: { front: [module.front], back: [module.back] },
+              metadata: {},
+            }
+          }
+        };
+
+        module.handleRequest(
+          $("#step-3"),
+          "/extapi/td/confirm-documents",
+          "PUT",
+          data,
+          module.compareData
+        );
+      };
+
+      module.compareData = () => {
+        const data = {
+          id: module.id,
+          data: {
+            "name": "日本花子",
+            "birth": "1975-06-01",
+            "address": "三重県津市垂水2566番地",
+            "gender": "female"
+          }
+        };
+
+        module.handleRequest(
+          $("#step-4"),
+          "/extapi/td/compare-data",
+          "PUT",
+          data
+        );
+      };
+
+      module.verificationStatus = () => {
+        module.handleRequest(
+          $("#step-5"),
+          `/extapi/td/verification/${module.id}`,
+          "GET"
+        );
+      };
+
+      module.deleteVerification = () => {
+        module.handleRequest(
+          $("#step-6"),
+          `/extapi/td/verification/${module.id}`,
+          "DELETE"
+        );
+      };
+
+      module.onFrontChange = (element) => {
+        const file = element.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = function() {
+          module.front = reader.result.replace(/^.+base64,/, "");
+        };
+        reader.readAsDataURL(file);
+      };
+
+      module.onBackChange = (element) => {
+        const file = element.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = function() {
+          module.back = reader.result.replace(/^.+base64,/, "");
+        };
+        reader.readAsDataURL(file);
+      };
+
+      return module;
+    }($, window);
+
+    $(document).ready(function () {
+      $("#front").on("change", TrustDockModule.onFrontChange);
+      $("#back").on("change", TrustDockModule.onBackChange);
+      $("#submit").on("click", TrustDockModule.getPlans);
+      $("#status").on("click", TrustDockModule.verificationStatus);
+      $("#delete").on("click", TrustDockModule.deleteVerification);
+    });
+</script>
+</html>

@@ -24,8 +24,8 @@ const app = express();
  *                              Set basic express settings
  ***********************************************************************************/
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.json({limit: '20mb'}));
+app.use(express.urlencoded({limit: '20mb', extended: true}));
 app.use(cookieParser());
 
 // Show routes called in console during development
