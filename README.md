@@ -23,7 +23,7 @@ The original source are in [master_origin](https://github.com/wizeTaThanhLuong/m
 ## Sendgrid Mailer
 > We use sendgrid API via [nodemailer](https://github.com/nodemailer/nodemailer),
  and [nodemailer-sendgrid-transport](https://github.com/sendgrid/nodemailer-sendgrid-transport) package.
-  
+
 ## Testing API
 It's need to config `MF_KESSAI_API_KEY` and `SENDGRID_API_KEY` in `env` files, before testing.
 
@@ -47,3 +47,6 @@ curl --location --request POST '${domain}/extapi/sg/sendMail' \
 	"to": "example@email.com"
 }'
 ```
+
+TrustDock Test
+> HTML: [domain]/test.html
