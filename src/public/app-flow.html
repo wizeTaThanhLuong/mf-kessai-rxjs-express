@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>Trust Dock APP flow Test</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script src="https://helper.test.trustdock.io/v2/verification_helper.js"></script>
+</head>
+<body>
+    <button class="opener">身元確認プランの提出を行う</button>
+</body>
+<script>
+  $(document).ready(function () {
+    $.ajax({
+      url: "/extapi/td/get-plans",
+      method: "POST",
+      data: { matching: true },
+      success: function (res) {
+        console.log("Get plans:", res);
+        new Trustdock({
+          idForHelper: res.id_for_helper || '12345678-90ab-cdef-1234-567890abcdef',
+          plans: [
+            {
+              id: '95a92872-2eba-4498-a7b6-91ea70adb955'
+            }
+          ],
+          openerSelector: '.opener'
+        });
+      },
+      error: function (err) {
+        console.log("Get plans error:", err);
+      },
+      complete: function () {
+        //
+      }
+    });
+  });
+</script>
+</html>

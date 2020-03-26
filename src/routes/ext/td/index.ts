@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 /******************************************************************************
- *                      Get All Plans - "GET /extapi/td/get-plans"
+ *                      Get All Plans - "POST /extapi/td/get-plans"
  ******************************************************************************/
 
 router.post('/get-plans', async (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ router.post('/get-plans', async (req: Request, res: Response) => {
 });
 
 /******************************************************************************
- *                      Choose a plan - "POST /extapi/td/choose-plans"
+ *                      Choose a plan - "PUT /extapi/td/choose-plans"
  ******************************************************************************/
 
 router.put('/choose-plan', async (req: Request, res: Response) => {
@@ -43,7 +43,7 @@ router.put('/choose-plan', async (req: Request, res: Response) => {
 });
 
 /******************************************************************************
- *                      Submit confirmation - "POST /extapi/td/confirm-documents"
+ *                      Submit confirmation - "PUT /extapi/td/confirm-documents"
  ******************************************************************************/
 
 router.put('/confirm-documents', async (req: Request, res: Response) => {
@@ -59,7 +59,7 @@ router.put('/confirm-documents', async (req: Request, res: Response) => {
 });
 
 /******************************************************************************
- *                      Compare Data - "POST /extapi/td/compare-data"
+ *                      Compare Data - "PUT /extapi/td/compare-data"
  ******************************************************************************/
 
 router.put('/compare-data', async (req: Request, res: Response) => {
@@ -91,7 +91,7 @@ router.get('/verification/:id', async (req: Request, res: Response) => {
 });
 
 /******************************************************************************
- *                      Delete verification - "POST /extapi/td/verification/:id"
+ *                      Delete verification - "DELETE /extapi/td/verification/:id"
  ******************************************************************************/
 
 router.delete('/verification/:id', async (req: Request, res: Response) => {

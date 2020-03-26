@@ -27,18 +27,15 @@ The original source are in [master_origin](https://github.com/wizeTaThanhLuong/m
 ## Testing API
 It's need to config `MF_KESSAI_API_KEY` and `SENDGRID_API_KEY` in `env` files, before testing.
 
+#### Get billings list
 > GET: [domain]/extapi/mf/billings
 
-Get billings list
-
-
+#### Get billing detail
 > GET: [domain]/extapi/mf/billings/:id
 
-Get billing detail
-
+#### Send email test with sendgrid
 > POST: [domain]/extapi/sg/sendMail
 
-Send email test with sendgrid
 ```$xslt
 curl --location --request POST '${domain}/extapi/sg/sendMail' \
 --header 'Content-Type: application/json' \
@@ -48,5 +45,29 @@ curl --location --request POST '${domain}/extapi/sg/sendMail' \
 }'
 ```
 
-TrustDock Test
+#### TrustDock Test
 > HTML: [domain]/test.html
+
+> Via APP: [domain]/app-flow.html
+
+Get all plans
+> POST /extapi/td/get-plans
+> { matching: boolean; }
+
+Choose a plan for verification
+> PUT /extapi/td/choose-plans
+> { id: string; ids: string[]; }
+
+Submit documents
+> PUT /extapi/td/confirm-documents
+> { id: string; plan_id: string[]; documents: [TPersonalPlan](https://github.com/wizeTaThanhLuong/mf-kessai-rxjs-express/blob/master/src/types/trustDockDocuments.ts#L52); }
+
+Compare document with data
+> PUT /extapi/td/compare-data
+> { id: string; data: [TComparingData](https://github.com/wizeTaThanhLuong/mf-kessai-rxjs-express/blob/master/src/types/trustDockData.ts#L18); }
+
+Get verification's status
+> GET /extapi/td/verification/:id
+
+Delete verification result
+> DELETE /extapi/td/verification/:id
